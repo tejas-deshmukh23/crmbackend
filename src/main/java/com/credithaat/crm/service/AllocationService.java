@@ -91,12 +91,12 @@ public class AllocationService {
 //	}
 	
 	
-	
+	LeadAllocationSystem leadAllocationSystem ;
 	
 //	public Map<String, List<Apply>> allocateLeads(AllocationRequest allocationRequest) {
 	public String allocateLeads(AllocationRequest allocationRequest) {
 		
-		LeadAllocationSystem leadAllocationSystem = new LeadAllocationSystem(allocationRequest);
+		leadAllocationSystem = new LeadAllocationSystem(allocationRequest);
 //		
 //		Map<String, List<Apply>> result = new HashMap<>();
 //		for (Map.Entry<User, List<Apply>> entry : allocation.entrySet()) {
@@ -109,6 +109,16 @@ public class AllocationService {
 		
 //		LeadAllocationSystem leadAllocationSystem = new LeadAllocationSystem(allocationRequest);
 //		return leadAllocationSystem.getAllocatedLeads();
+	}
+	
+	public List<Apply> getAllocatedLeads(String userId)
+	{
+		
+		Long uId = Long.parseLong(userId);
+		List<Apply> list = leadAllocationSystem.getUserLeads(uId);
+		
+		return list;
+
 	}
 	
 	

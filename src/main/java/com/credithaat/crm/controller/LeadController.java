@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.credithaat.crm.entity.hicredit.Apply;
+import com.credithaat.crm.entity.hicredit.GlobalEntity;
 import com.credithaat.crm.entity.hicredit.Product;
 import com.credithaat.crm.entity.hicredit.Trace;
 //import com.credithaat.crm.entity.hicredit.QApply;
@@ -211,7 +212,7 @@ public class LeadController {
 	
 	@PostMapping("/searchTLPanelLeads") 
 	@ResponseBody 
-	public List<Apply> updateLead(
+	public List<SearchResponse> updateLead(
 							  @RequestParam(name="product", required=false) String product1,
 							  @RequestParam(name="stages", required=false) Integer status,
 							  @RequestParam(name="leadType", required=false) Integer leadType,
@@ -241,7 +242,43 @@ public class LeadController {
 //            e.printStackTrace();
 //        }
 		
-		return leadService.tlPanelLeadsSearch( product1, status,  leadType,  applyTime,  state,  city,  tier);
+		List<Apply> applyRecords = leadService.tlPanelLeadsSearch( product1, status,  leadType,  applyTime,  state,  city,  tier);
+		
+		try {
+			
+			List<SearchResponse> searchResponseList = new ArrayList();
+			
+			UserInfo userInfo = new UserInfo();
+			Product product = new Product();
+			
+			for(Apply apply : applyRecords)
+			{
+				
+				SearchResponse searchResponse = new SearchResponse();
+				
+				searchResponse.setApply(apply);
+				searchResponse.setProduct(apply.getProduct());
+				searchResponse.setUserInfo(apply.getUserinfo());
+				
+				searchResponseList.add(searchResponse);
+				
+			}
+			
+//			GlobalEntity globalEntity = new GlobalEntity();
+//			globalEntity.setSearchResponseList(searchResponseList);
+			
+			GlobalEntity.setSearchResponseList(searchResponseList);
+			
+			return searchResponseList;
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+//		return leadService.tlPanelLeadsSearch( product1, status,  leadType,  applyTime,  state,  city,  tier);
 		
 	}
 	
