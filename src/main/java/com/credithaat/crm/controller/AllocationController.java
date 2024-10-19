@@ -59,27 +59,29 @@ public class AllocationController {
 	{
 		try {
 			
-		List<Apply> applyRecords =  allocationService.getAllocatedLeads(userId);
+		List<SearchResponse> applyRecords =  allocationService.getAllocatedLeads(userId);
 		
-		List<SearchResponse> searchResponseList = new ArrayList();
+//		List<SearchResponse> searchResponseList = new ArrayList();
+//		
+//		UserInfo userInfo = new UserInfo();
+//		Product product = new Product();
+//		
+//		for(Apply apply : applyRecords)
+//		{
+//			
+//			SearchResponse searchResponse = new SearchResponse();
+//			
+//			searchResponse.setApply(apply);
+//			searchResponse.setProduct(apply.getProduct());
+//			searchResponse.setUserInfo(apply.getUserinfo());
+//			
+//			searchResponseList.add(searchResponse);
+//			
+//		}
+//		
+//		return searchResponseList;
 		
-		UserInfo userInfo = new UserInfo();
-		Product product = new Product();
-		
-		for(Apply apply : applyRecords)
-		{
-			
-			SearchResponse searchResponse = new SearchResponse();
-			
-			searchResponse.setApply(apply);
-			searchResponse.setProduct(apply.getProduct());
-			searchResponse.setUserInfo(apply.getUserinfo());
-			
-			searchResponseList.add(searchResponse);
-			
-		}
-		
-		return searchResponseList;
+		return applyRecords;
 		
 		}
 		catch(Exception e)

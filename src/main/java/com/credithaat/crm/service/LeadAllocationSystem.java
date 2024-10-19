@@ -16,17 +16,21 @@ import com.credithaat.crm.util.SearchResponse;
 public class LeadAllocationSystem {
 	
 	private List<User> users;
-    private List<Apply> remainingLeads;
-    private Map<User, List<Apply>> allocatedLeads;
+//    private List<Apply> remainingLeads;
+//    private Map<User, List<Apply>> allocatedLeads;
+	
+	private List<SearchResponse> remainingLeads;
+	private Map<User, List<SearchResponse>> allocatedLeads;
+	
     private static final int INITIAL_ALLOCATION = 100;
     private static final int SUBSEQUENT_ALLOCATION = 10;
     
 //    The constructor takes an AllocationRequest and performs the initial allocation of up to 100 leads per user.
     public LeadAllocationSystem(AllocationRequest allocationRequest) {
         this.users = allocationRequest.getSysUsers();
-        this.remainingLeads = new ArrayList<>(allocationRequest.getApplyLeads());
+//        this.remainingLeads = new ArrayList<>(allocationRequest.getApplyLeads());
         //Here temporarily we will use the SearchResponse class for testing 
-//        this.remainingLeads = new ArrayList<>(GlobalEntity.getSearchResponseList());
+        this.remainingLeads = new ArrayList<>(GlobalEntity.getSearchResponseList());
         this.allocatedLeads = new HashMap<>();
         initialAllocation();
     }
@@ -56,7 +60,7 @@ public class LeadAllocationSystem {
     
     private void initialAllocation() {
     	
-    	List<SearchResponse> globalList = GlobalEntity.getSearchResponseList();
+    	List<SearchResponse> listToAllocate = GlobalEntity.getSearchResponseList();
     	
         int totalLeads = remainingLeads.size();
         int userCount = users.size();
@@ -72,12 +76,12 @@ public class LeadAllocationSystem {
             allocatedLeads.put(user, new ArrayList<>());
         }
 
-        Iterator<Apply> leadIterator = remainingLeads.iterator();
+        Iterator<SearchResponse> leadIterator = remainingLeads.iterator();
         while (leadIterator.hasNext()) {
             for (User user : users) {
                 if (!leadIterator.hasNext()) break;
                 
-                List<Apply> userLeads = allocatedLeads.get(user);
+                List<SearchResponse> userLeads = allocatedLeads.get(user);
                 if (userLeads.size() < leadsPerUser) {
                     userLeads.add(leadIterator.next());
                     leadIterator.remove();
@@ -90,9 +94,9 @@ public class LeadAllocationSystem {
     
     private void printAllocationStatus() {
         System.out.println("After the leads have been allocated:");
-        for (Map.Entry<User, List<Apply>> entry : allocatedLeads.entrySet()) {
+        for (Map.Entry<User, List<SearchResponse>> entry : allocatedLeads.entrySet()) {
             User user = entry.getKey();
-            List<Apply> applies = entry.getValue();
+            List<SearchResponse> applies = entry.getValue();
             System.out.println("User: " + user);
             System.out.println("Number of Applications: " + applies.size());
         }
@@ -102,7 +106,7 @@ public class LeadAllocationSystem {
     
 //    The allocateAdditionalLeads(User user) method is called when a user has completed their current batch. It allocates up to 10 additional leads to the specified user.
     public void allocateAdditionalLeads(User user) {
-        List<Apply> userLeads = allocatedLeads.get(user);
+        List<SearchResponse> userLeads = allocatedLeads.get(user);
         int leadsToAllocate = Math.min(SUBSEQUENT_ALLOCATION, remainingLeads.size());
         for (int i = 0; i < leadsToAllocate; i++) {
             userLeads.add(remainingLeads.remove(0));
@@ -110,7 +114,7 @@ public class LeadAllocationSystem {
     }
     
 //    We provide methods to get the current allocation status (getAllocatedLeads()) and the number of remaining leads (getRemainingLeadsCount()).
-    public Map<User, List<Apply>> getAllocatedLeads() {
+    public Map<User, List<SearchResponse>> getAllocatedLeads() {
         return allocatedLeads;
     }
 
@@ -118,8 +122,8 @@ public class LeadAllocationSystem {
         return remainingLeads.size();
     }
     
-    public List<Apply> getUserLeads(Long userId) {
-        for (Map.Entry<User, List<Apply>> entry : allocatedLeads.entrySet()) {
+    public List<SearchResponse> getUserLeads(Long userId) {
+        for (Map.Entry<User, List<SearchResponse>> entry : allocatedLeads.entrySet()) {
             if (entry.getKey().getId().equals(userId)) {
                 return entry.getValue();
             }

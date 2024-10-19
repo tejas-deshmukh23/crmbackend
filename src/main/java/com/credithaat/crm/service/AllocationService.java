@@ -13,6 +13,7 @@ import com.credithaat.crm.entity.anno.User;
 import com.credithaat.crm.entity.ds.ALDistribution;
 import com.credithaat.crm.entity.ds.AllocationRequest;
 import com.credithaat.crm.entity.hicredit.Apply;
+import com.credithaat.crm.util.SearchResponse;
 
 @RestController
 public class AllocationService {
@@ -111,11 +112,11 @@ public class AllocationService {
 //		return leadAllocationSystem.getAllocatedLeads();
 	}
 	
-	public List<Apply> getAllocatedLeads(String userId)
+	public List<SearchResponse> getAllocatedLeads(String userId)
 	{
 		
 		Long uId = Long.parseLong(userId);
-		List<Apply> list = leadAllocationSystem.getUserLeads(uId);
+		List<SearchResponse> list = leadAllocationSystem.getUserLeads(uId);
 		
 		return list;
 
