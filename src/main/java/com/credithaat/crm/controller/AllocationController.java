@@ -25,10 +25,10 @@ import com.credithaat.crm.util.SearchResponse;
 @Controller
 @CrossOrigin("*")
 public class AllocationController {
-	
+
 	@Autowired
 	AllocationService allocationService;
-	
+
 //	@PostMapping("/allocateLeads")
 //	public Map<User, List<Apply>> allocateLeads(@RequestParam(name="userList", required=false)List<ALDistribution> userList,
 //												@RequestParam(name="applyList", required=false)List<Apply> applyList){
@@ -36,31 +36,30 @@ public class AllocationController {
 //		return allocationService.allocateLeads(userList, applyList);
 //		
 //	}
-	
+
 //	@PostMapping("/allocateLeads")
 //	public Map<User, List<Apply>> allocateLeads(@RequestBody List<ALDistribution> userList, @RequestBody List<Apply> applyList) {	
 ////	    return allocationService.allocateLeads(userList);
 //		return null;
 //	}
-	
+
 //	@PostMapping("/allocateLeads")
 //	public Map<User, List<Apply>> allocateLeads(@RequestBody AllocationRequest allocationRequest) {	
 //		return allocationService.allocateLeads(allocationRequest);
 //	}
-	
+
 	@PostMapping("/allocateLeads")
-	public String allocateLeads(@RequestBody AllocationRequest allocationRequest) {	
+	public String allocateLeads(@RequestBody AllocationRequest allocationRequest) {
 		return allocationService.allocateLeads(allocationRequest);
 	}
-	
+
 	@PostMapping("/getAllocatedLeadsJSON")
 	@ResponseBody
-	public List<SearchResponse> getAllocatedLeads(@RequestParam(name="userId", required=false)String userId)
-	{
+	public List<SearchResponse> getAllocatedLeads(@RequestParam(name = "userId", required = false) String userId) {
 		try {
-			
-		List<SearchResponse> applyRecords =  allocationService.getAllocatedLeads(userId);
-		
+
+			List<SearchResponse> applyRecords = allocationService.getAllocatedLeads(userId);
+
 //		List<SearchResponse> searchResponseList = new ArrayList();
 //		
 //		UserInfo userInfo = new UserInfo();
@@ -80,21 +79,16 @@ public class AllocationController {
 //		}
 //		
 //		return searchResponseList;
-		
-		return applyRecords;
-		
-		}
-		catch(Exception e)
-		{
+
+			return applyRecords;
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
-		
+
 //		return allocationService.getAllocatedLeads(userId);
 	}
-
-	
-	
 
 }

@@ -102,7 +102,7 @@ public class LeadController {
 //	    public List<Apply> search(@RequestParam(name = "agent") String agent,@RequestParam(name="status") Integer status,@RequestParam(name = "applyDate") Date applyTime,@RequestParam(name="phone") String phone, HttpServletRequest request, HttpServletResponse response) {
 //	        return leadService.search("BTI", null, null, phone);
 //	 }
-	
+
 	@PostMapping("/search")
 	@ResponseBody
 //	public List<Map<Apply, UserInfo>> search(

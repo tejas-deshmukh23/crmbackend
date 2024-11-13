@@ -1,6 +1,7 @@
 package com.credithaat.crm.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class SysUserService {
 	public List<User> getAllUsers()
 	{
 		return sysUserRepository.findAll();
+	}
+	
+	public Optional<User> getUserById(Long userId)
+	{
+		return sysUserRepository.findById(userId.toString());
 	}
 
 }
